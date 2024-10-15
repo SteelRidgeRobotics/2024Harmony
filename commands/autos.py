@@ -9,13 +9,15 @@ import constants
 
 # from subsystems.can_drivesubsystem import DriveSubsystem
 from subsystems.drivetrain import DriveSubsystem
+from subsystems.launcher import LauncherSubsystem
 
 
 class Autos(commands2.Command):
-    def __init__(self, drive: DriveSubsystem) -> None:
+    def __init__(self, drive: DriveSubsystem, launcher: LauncherSubsystem) -> None:
         super().__init__()
         self.drive = drive
-        self.addRequirements(drive)
+        self.launcher = launcher
+        self.addRequirements(drive, launcher)
 
     def exampleAuto(self) -> commands2.Command:
         return (
@@ -25,3 +27,55 @@ class Autos(commands2.Command):
                 commands2.cmd.run(lambda: self.drive.arcadeDrive(0, 0), self.drive)
             )
         )
+    
+    def speaker_center(self) -> commands2.Command:
+        return (
+            commands2.cmd.run(lambda: self.launcher.setLaunchWheel(constants.kLauncherSpeed))
+            .withTimeout(constants.kLauncherDelay)
+            .andThen(
+                lambda: self.launcher.setFeedWheel(constants.kLaunchFeederSpeed)
+            )
+            .withTimeout(1)
+            .andThen(
+                lambda: self.launcher.stop()
+            )
+            .andThen(
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed,0)
+            )
+            .withTimeout(1)
+        )
+    def amp_side_speaker(self, team = 1) -> commands2.Command:
+        return (
+            commands2.cmd.run(lambda: self.launcher.setLaunchWheel(constants.kLauncherSpeed))
+            .withTimeout(constants.kLauncherDelay)
+            .andThen(
+                lambda: self.launcher.setFeedWheel(constants.kLaunchFeederSpeed)
+            )
+            .withTimeout(1)
+            .andThen(
+                lambda: self.launcher.stop()
+            )
+            .andThen(
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, team * constants.kAutoTurnAmp)
+            )
+            .withTimeout(1)
+        )
+    
+    def feed_side_speaker(self, team = 1) -> commands2.Command:
+        
+        return (
+            commands2.cmd.run(lambda: self.launcher.setLaunchWheel(constants.kLauncherSpeed))
+            .withTimeout(constants.kLauncherDelay)
+            .andThen(
+                lambda: self.launcher.setFeedWheel(constants.kLaunchFeederSpeed)
+            )
+            .withTimeout(1)
+            .andThen(
+                lambda: self.launcher.stop()
+            )
+            .andThen(
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, team * constants.kAutoTurnFeed)
+            )
+            .withTimeout(1)
+        )
+

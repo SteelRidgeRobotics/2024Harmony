@@ -19,6 +19,8 @@ from commands.preparelaunch import PrepareLaunch
 from subsystems.drivetrain import DriveSubsystem
 from subsystems.launcher import LauncherSubsystem
 
+from wpilib import SendableChooser
+
 # from subsystems.pwm_drivesubsystem import DriveSubsystem
 # from subsystems.pwm_launchersubsystem import LauncherSubsystem
 
@@ -58,6 +60,19 @@ class RobotContainer:
             )
         )
 
+        self.chooser = SendableChooser()
+        
+        self.chooser.setDefaultOption("None", 0)
+        self.chooser.addOption("Leave", 1)
+        self.chooser.addOption("Front Speaker", 2)
+        self.chooser.addOption("Blue Amp Side Speaker", 3)
+        self.chooser.addOption("Blue Feed Side Speaker", 4)
+        self.chooser.addOption("Red Amp Side Speaker", 5)
+        self.chooser.addOption("Red Feed Side Speaker", 6)
+
+        wpilib.SmartDashboard.putData("Auto Select", self.chooser)
+
+
     def configureButtonBindings(self):
         self.operatorController.a().whileTrue(
             PrepareLaunch(self.launcher)
@@ -69,4 +84,17 @@ class RobotContainer:
         self.operatorController.leftBumper().whileTrue(self.launcher.getIntakeCommand())
 
     def getAutonomousCommand(self) -> commands2.Command:
-        return Autos.exampleAuto(self.drive)
+        if self.chooser.getSelected() == 0:
+            pass
+        elif self.chooser.getSelected() == 1:
+            Autos.exampleAuto(self.drive, self.launcher)
+        elif self.chooser.getSelected() == 2:
+            Autos.speaker_center(self.drive, self.launcher)
+        elif self.chooser.getSelected() == 3:
+            Autos.amp_side_speaker(self.drive, self.launcher, 1)
+        elif self.chooser.getSelected() == 4:
+            Autos.feed_side_speaker(self.drive, self.launcher, 1)
+        elif self.chooser.getSelected() == 5:
+            Autos.amp_side_speaker(self.drive, self.launcher, -1)
+        elif self.chooser.getSelected() == 6:
+            Autos.feed_side_speaker(self.drive, self.launcher, -1)

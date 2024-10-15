@@ -25,6 +25,8 @@ class LauncherSubsystem(commands2.Subsystem):
         # self.feedWheel.configSupplyCurrentLimit(self.supply_limit_config)
         # self.launchWheel.setSmartCurrentLimit(constants.kLauncherCurrentLimit)
 
+        self.launchWheel.setNeutralMode(phoenix5.NeutralMode.Coast)
+
     def getIntakeCommand(self) -> commands2.Command:
         """The startEnd helper method takes a method to call when the command is initialized and one to
         call when it ends"""
