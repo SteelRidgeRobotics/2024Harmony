@@ -48,7 +48,7 @@ class RobotContainer:
             # hand, and turning controlled by the right.
             commands2.cmd.run(
                 lambda: self.drive.arcadeDrive(
-                    -self.driverController.getLeftY(),
+                    self.driverController.getLeftY(),
                     -self.driverController.getRightX(),
                 ),
                 self.drive,
