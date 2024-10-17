@@ -5,16 +5,14 @@
 #
 
 import wpilib
-from wpilib.interfaces import GenericHID
-
-import commands2
-import commands2.button
 
 import constants
 
 from commands.autos import Autos
 from commands.launchnote import LaunchNote
 from commands.preparelaunch import PrepareLaunch
+
+import commands2
 
 from subsystems.drivetrain import DriveSubsystem
 from subsystems.launcher import LauncherSubsystem
@@ -35,11 +33,8 @@ class RobotContainer:
 
     def __init__(self) -> None:
         # The driver's controller
-        self.driverController = commands2.button.CommandXboxController(
+        self.driverController = wpilib.XboxController(
             constants.kDriverControllerPort
-        )
-        self.operatorController = commands2.button.CommandXboxController(
-            constants.kOperatorControllerPort
         )
 
         # The robot's subsystems
@@ -74,14 +69,13 @@ class RobotContainer:
 
 
     def configureButtonBindings(self):
-        self.operatorController.a().whileTrue(
-            PrepareLaunch(self.launcher)
+
+        commands2.button.JoystickButton(self.driverController, wpilib.XboxController.Button.kRightBumper).whileTrue(PrepareLaunch(self.launcher)
             .withTimeout(constants.kLauncherDelay)
             .andThen(LaunchNote(self.launcher))
-            .handleInterrupt(lambda: self.launcher.stop())
-        )
+            .handleInterrupt(lambda: self.launcher.stop()))
 
-        self.operatorController.leftBumper().whileTrue(self.launcher.getIntakeCommand())
+        commands2.button.JoystickButton(self.driverController, wpilib.XboxController.Button.kLeftBumper).whileTrue(self.launcher.getIntakeCommand())
 
     def getAutonomousCommand(self) -> commands2.Command:
         if self.chooser.getSelected() == 0:
