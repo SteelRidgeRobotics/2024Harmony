@@ -74,7 +74,15 @@ class Autos(commands2.Command):
                 lambda: self.launcher.stop()
             )
             .andThen(
-                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, team * constants.kAutoTurnFeed)
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, 0)
+            )
+            .withTimeout(1)
+            .andThen(
+                lambda: self.drive.arcadeDrive(0, team * constants.kAutoTurnFeed)
+            )
+            .withTimeout(.5)
+            .andThen(
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, 0)
             )
             .withTimeout(1)
         )
