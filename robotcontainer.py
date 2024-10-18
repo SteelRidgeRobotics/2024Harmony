@@ -19,6 +19,8 @@ from subsystems.launcher import LauncherSubsystem
 
 from wpilib import SendableChooser
 
+import unittests
+
 # from subsystems.pwm_drivesubsystem import DriveSubsystem
 # from subsystems.pwm_launchersubsystem import LauncherSubsystem
 
