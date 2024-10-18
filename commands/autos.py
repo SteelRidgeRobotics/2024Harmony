@@ -13,21 +13,20 @@ from subsystems.launcher import LauncherSubsystem
 
 
 class Autos(commands2.Command):
-    def __init__(self, drive: DriveSubsystem, launcher: LauncherSubsystem) -> None:
+    def __init__(self, drive: DriveSubsystem) -> None:
         super().__init__()
         self.drive = drive
-        self.launcher = launcher
-        self.addRequirements(drive, launcher)
+        self.addRequirements(drive)
 
     def exampleAuto(self) -> commands2.Command:
         return (
-            commands2.cmd.run(lambda: self.drive.arcadeDrive(-0.5, 0), self.drive)
+            commands2.cmd.run(lambda: self.drive.arcadeDrive(-0.5, 0, False), self.drive)
             .withTimeout(1.0)
             .andThen(
-                commands2.cmd.run(lambda: self.drive.arcadeDrive(0, 0), self.drive)
+                commands2.cmd.run(lambda: self.drive.arcadeDrive(0, 0, False), self.drive)
             )
         )
-    
+    """"
     def speaker_center(self) -> commands2.Command:
         return (
             commands2.cmd.run(lambda: self.launcher.setLaunchWheel(constants.kLauncherSpeed))
@@ -40,7 +39,7 @@ class Autos(commands2.Command):
                 lambda: self.launcher.stop()
             )
             .andThen(
-                lambda: self.drive.arcadeDrive(constants.kAutoSpeed,0)
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed,0, False)
             )
             .withTimeout(1)
         )
@@ -56,7 +55,7 @@ class Autos(commands2.Command):
                 lambda: self.launcher.stop()
             )
             .andThen(
-                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, team * constants.kAutoTurnAmp)
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, team * constants.kAutoTurnAmp, False)
             )
             .withTimeout(1)
         )
@@ -74,16 +73,16 @@ class Autos(commands2.Command):
                 lambda: self.launcher.stop()
             )
             .andThen(
-                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, 0)
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, 0, False)
             )
             .withTimeout(1)
             .andThen(
-                lambda: self.drive.arcadeDrive(0, team * constants.kAutoTurnFeed)
+                lambda: self.drive.arcadeDrive(0, team * constants.kAutoTurnFeed, False)
             )
             .withTimeout(.5)
             .andThen(
-                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, 0)
+                lambda: self.drive.arcadeDrive(constants.kAutoSpeed, 0, False)
             )
             .withTimeout(1)
         )
-
+"""

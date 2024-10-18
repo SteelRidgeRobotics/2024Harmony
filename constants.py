@@ -34,7 +34,7 @@ kLauncherSpeed = 1
 kLaunchFeederSpeed = 1
 kIntakeLauncherSpeed = -1
 kIntakeFeederSpeed = -0.2
-kLauncherDelay = 2
+kLauncherDelay = 1
 
 # Autos
 kAutoTurnAmp = 0.1

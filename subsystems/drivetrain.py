@@ -41,7 +41,12 @@ class DriveSubsystem(commands2.Subsystem):
         self.front_left.setInverted(phoenix5.InvertType.InvertMotorOutput)
         self.back_left.setInverted(phoenix5.InvertType.FollowMaster)
 
-    def arcadeDrive(self, fwd: float, rot: float) -> None:
+        self.front_left.setNeutralMode(phoenix5.NeutralMode.Brake)
+        self.front_right.setNeutralMode(phoenix5.NeutralMode.Brake)
+        self.back_left.setNeutralMode(phoenix5.NeutralMode.Brake)
+        self.back_right.setNeutralMode(phoenix5.NeutralMode.Brake)
+
+    def arcadeDrive(self, fwd: float, rot: float, slow: bool) -> None:
         """
         Drives the robot using arcade controls.
 
@@ -49,5 +54,8 @@ class DriveSubsystem(commands2.Subsystem):
         :param rot: the commanded rotation
         """
         
-        self.front_left.set(phoenix5.ControlMode.PercentOutput, fwd + rot)
-        self.front_right.set(phoenix5.ControlMode.PercentOutput, fwd - rot)
+        left = fwd + rot if not slow else (fwd + rot) * 0.2
+        right = fwd - rot if not slow else (fwd - rot) * 0.2
+
+        self.front_left.set(phoenix5.ControlMode.PercentOutput, left)
+        self.front_right.set(phoenix5.ControlMode.PercentOutput, right)
