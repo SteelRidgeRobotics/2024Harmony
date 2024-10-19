@@ -59,17 +59,19 @@ class RobotContainer:
             )
         )
 
-       # self.chooser = SendableChooser()
-        
-        # self.chooser.setDefaultOption("None", None)
-        # self.chooser.addOption("Leave", Autos.exampleAuto(self.drive, self.launcher))
-        # self.chooser.addOption("Front Speaker", Autos.speaker_center(self.drive, self.launcher))
-        # self.chooser.addOption("Blue Amp Side Speaker", Autos.amp_side_speaker(self.drive, self.launcher, 1))
-        # self.chooser.addOption("Blue Feed Side Speaker", Autos.feed_side_speaker(self.drive, self.launcher, 1))
-        # self.chooser.addOption("Red Amp Side Speaker", Autos.amp_side_speaker(self.drive, self.launcher, -1))
-        # self.chooser.addOption("Red Feed Side Speaker", Autos.feed_side_speaker(self.drive, self.launcher, -1))
+        autos = Autos(self.drive, self.launcher)
 
-        #wpilib.SmartDashboard.putData("Auto Select", self.chooser)
+        self.chooser = SendableChooser()
+        
+        self.chooser.setDefaultOption("None", autos.doNothing())
+        self.chooser.addOption("Leave", autos.exampleAuto())
+        self.chooser.addOption("Front Speaker", autos.speaker_center())
+        self.chooser.addOption("Blue Amp Side Speaker", autos.amp_side_speaker(1))
+        self.chooser.addOption("Blue Feed Side Speaker", autos.feed_side_speaker(1))
+        self.chooser.addOption("Red Amp Side Speaker", autos.amp_side_speaker(-1))
+        self.chooser.addOption("Red Feed Side Speaker", autos.feed_side_speaker(-1))
+
+        wpilib.SmartDashboard.putData("Auto Select", self.chooser)
 
 
 
@@ -84,5 +86,4 @@ class RobotContainer:
         commands2.button.JoystickButton(self.driverController, wpilib.XboxController.Button.kLeftBumper).whileTrue(self.launcher.getIntakeCommand())
 
     def getAutonomousCommand(self) -> commands2.Command:
-        pass
-       # Autos.exampleAuto(self.drive)
+        return self.chooser.getSelected()
