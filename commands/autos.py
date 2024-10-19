@@ -11,12 +11,16 @@ import constants
 from subsystems.drivetrain import DriveSubsystem
 from subsystems.launcher import LauncherSubsystem
 
-
 class Autos(commands2.Command):
-    def __init__(self, drive: DriveSubsystem) -> None:
+    def __init__(self, drive: DriveSubsystem, launcher: LauncherSubsystem) -> None:
         super().__init__()
         self.drive = drive
+        self.launcher = launcher
         self.addRequirements(drive)
+
+    def doNothing(self) -> commands2.Command:
+
+        return (commands2.cmd.run(lambda: self.drive.arcadeDrive(0, 0, False), self.drive))
 
     def exampleAuto(self) -> commands2.Command:
         return (
@@ -26,7 +30,7 @@ class Autos(commands2.Command):
                 commands2.cmd.run(lambda: self.drive.arcadeDrive(0, 0, False), self.drive)
             )
         )
-    """"
+    
     def speaker_center(self) -> commands2.Command:
         return (
             commands2.cmd.run(lambda: self.launcher.setLaunchWheel(constants.kLauncherSpeed))
@@ -85,4 +89,3 @@ class Autos(commands2.Command):
             )
             .withTimeout(1)
         )
-"""

@@ -10,9 +10,34 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Auto Select": "String Chooser"
+    },
+    "windows": {
+      "/SmartDashboard/Auto Select": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "Auto Select": {
+          "open": true,
+          "string[]##v_/SmartDashboard/Auto Select/options": {
+            "open": true
+          }
+        }
+      }
     }
   },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }
