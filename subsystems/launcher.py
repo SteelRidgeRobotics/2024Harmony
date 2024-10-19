@@ -24,7 +24,8 @@ class LauncherSubsystem(commands2.Subsystem):
         # self.supply_limit_config.currentLimit = constants.kFeedCurrentLimit
         # self.feedWheel.configSupplyCurrentLimit(self.supply_limit_config)
         # self.launchWheel.setSmartCurrentLimit(constants.kLauncherCurrentLimit)
-
+        
+        self.feedWheel.setNeutralMode(phoenix5.NeutralMode.Coast)
         self.launchWheel.setNeutralMode(phoenix5.NeutralMode.Coast)
 
     def getIntakeCommand(self) -> commands2.Command:
